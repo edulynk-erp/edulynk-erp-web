@@ -12,8 +12,8 @@ COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts --no-audit --no-fund
 COPY next.config.ts tsconfig.json postcss.config.mjs ./
 COPY src ./src
-# Production build only (never the e2e build).
-RUN test -z "${EDULYNK_E2E_BUILD:-}" && npm run build
+# Production build only (never the demo build): demo fixtures and the demo identity adapter are aliased out.
+RUN test -z "${EDULYNK_DEMO_BUILD:-}" && npm run build
 
 FROM ${NODE_IMAGE} AS runtime
 ENV NODE_ENV=production \

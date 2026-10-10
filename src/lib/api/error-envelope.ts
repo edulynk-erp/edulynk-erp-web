@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from '@/lib/validation/zod';
 
 /** The common/v1 error envelope from edulynk-api-contracts. */
 export const fieldErrorSchema = z.object({

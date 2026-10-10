@@ -1,5 +1,14 @@
 const DEFAULT_DESTINATION = '/dashboard';
-const DISALLOWED_PREFIXES = ['/login', '/auth/', '/bff/', '/healthz'];
+const DISALLOWED_PREFIXES = [
+  '/login',
+  '/auth/',
+  '/bff/',
+  '/healthz',
+  '/invite',
+  '/forgot-password',
+  '/reset-password',
+  '/demo/',
+];
 
 /**
  * Accepts only same-origin, root-relative paths for post-login redirects. Rejects absolute and protocol-relative URLs,

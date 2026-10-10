@@ -11,8 +11,11 @@
     "dev": "next dev --port 3000",
     "build": "next build",
     "start": "next start --port 3000",
-    "build:e2e": "EDULYNK_E2E_BUILD=include next build",
-    "start:e2e": "EDULYNK_E2E_BUILD=include next start --port 3100",
+    "build:demo": "EDULYNK_DEMO_BUILD=include next build",
+    "start:demo": "EDULYNK_DEMO_BUILD=include next start --port 3000",
+    "build:e2e": "EDULYNK_DEMO_BUILD=include next build",
+    "start:e2e": "EDULYNK_DEMO_BUILD=include next start --port 3100",
+    "verify:production-build": "node scripts/verify-production-build.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lint": "eslint --max-warnings=0",
@@ -21,9 +24,11 @@
     "test:unit": "vitest run --project unit",
     "test:component": "vitest run --project component",
     "test:e2e": "playwright test",
-    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run test:e2e"
+    "ci": "npm run format:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run verify:production-build && npm run test:e2e"
   },
   "dependencies": {
+    "@fontsource-variable/inter": "5.3.0",
+    "@hookform/resolvers": "5.9.1",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "jose": "6.2.12",
@@ -32,6 +37,8 @@
     "radix-ui": "1.7.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
+    "react-hook-form": "7.89.0",
+    "recharts": "3.10.1",
     "server-only": "0.0.1",
     "tailwind-merge": "3.7.0",
     "zod": "4.6.5"

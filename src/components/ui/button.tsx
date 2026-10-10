@@ -1,6 +1,7 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 import { Slot } from 'radix-ui';
 import type { ComponentProps } from 'react';
+import { Spinner } from '@/components/ui/spinner';
 import { cn } from '@/lib/utils/cn';
 
 export const buttonVariants = cva(
@@ -31,15 +32,35 @@ export function Button({
   variant,
   size,
   asChild = false,
+  loading = false,
   type,
+  disabled,
+  children,
   ...props
-}: ComponentProps<'button'> & VariantProps<typeof buttonVariants> & { asChild?: boolean }) {
-  const Comp = asChild ? Slot.Root : 'button';
+}: ComponentProps<'button'> &
+  VariantProps<typeof buttonVariants> & {
+    asChild?: boolean;
+    /** Shows a spinner in place of the leading icon and disables the button while an action runs. */
+    loading?: boolean;
+  }) {
+  if (asChild) {
+    const slotProps = { disabled, ...props };
+    return (
+      <Slot.Root className={cn(buttonVariants({ variant, size, className }))} {...slotProps}>
+        {children}
+      </Slot.Root>
+    );
+  }
   return (
-    <Comp
-      className={cn(buttonVariants({ variant, size, className }))}
-      {...(asChild ? {} : { type: type ?? 'button' })}
+    <button
+      className={cn(buttonVariants({ variant, size, className }), loading && '[&>svg:not([data-spinner])]:hidden')}
+      type={type ?? 'button'}
+      disabled={disabled || loading}
+      aria-busy={loading || undefined}
       {...props}
-    />
+    >
+      {loading ? <Spinner /> : null}
+      {children}
+    </button>
   );
 }

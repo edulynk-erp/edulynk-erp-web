@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
+import { AuthLayout } from '@/components/layout/auth-layout';
 import { LoginPanel } from '@/features/auth/login-panel';
 import { loginNotice } from '@/features/auth/login-messages';
 import { safeRedirectPath } from '@/lib/utils/safe-redirect';
@@ -19,9 +20,9 @@ export default async function LoginPage({ searchParams }: PageProps<'/login'>) {
   const branding = await getBranding();
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-muted p-6">
-      <LoginPanel brandName={branding.displayName} step={step} notice={notice} />
-    </main>
+    <AuthLayout brandName={branding.displayName}>
+      <LoginPanel brandName={branding.displayName} step={step} notice={notice} next={next} />
+    </AuthLayout>
   );
 }
 

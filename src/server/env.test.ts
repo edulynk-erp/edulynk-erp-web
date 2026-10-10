@@ -26,6 +26,16 @@ describe('parseServerEnv', () => {
     expect(() => parseServerEnv({ ...base, AUTH_ADAPTER: adapter })).toThrow(/AUTH_ADAPTER/);
   });
 
+  it('accepts the demo adapter only outside staging and production', () => {
+    expect(parseServerEnv({ ...base, AUTH_ADAPTER: 'demo' }).AUTH_ADAPTER).toBe('demo');
+    expect(parseServerEnv({ ...base, APP_ENV: 'test', AUTH_ADAPTER: 'demo' }).AUTH_ADAPTER).toBe('demo');
+    for (const APP_ENV of ['staging', 'production']) {
+      expect(() =>
+        parseServerEnv({ ...base, APP_ENV, AUTH_ADAPTER: 'demo', TENANT_API_BASE_URL: 'https://api.example.test' }),
+      ).toThrow(/AUTH_ADAPTER=demo is not permitted/);
+    }
+  });
+
   it('requires https upstream in deployed environments and strips trailing slashes', () => {
     expect(() =>
       parseServerEnv({ ...base, APP_ENV: 'production', TENANT_API_BASE_URL: 'http://api.internal' }),

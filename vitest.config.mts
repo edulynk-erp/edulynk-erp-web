@@ -9,6 +9,8 @@ export default defineConfig({
   resolve: {
     alias: {
       'server-only': path.join(root, 'tests/support/empty-module.ts'),
+      '@edulynk/demo-identity-adapter': path.join(root, 'src/server/auth/adapters/demo.ts'),
+      '@edulynk/demo-services': path.join(root, 'src/demo/index.ts'),
       '@': path.join(root, 'src'),
     },
   },

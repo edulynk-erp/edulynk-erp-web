@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { trackCspViolations } from './helpers';
+import { OWNER_EMAIL, signIn, trackCspViolations } from './helpers';
 
 function nonceFrom(csp: string | undefined): string {
   const match = /'nonce-([A-Za-z0-9+/=]+)'/.exec(csp ?? '');
@@ -29,10 +29,28 @@ test.describe('content security policy', () => {
     for (const tag of inlineStyles) expect(tag, tag).toContain(`nonce="${nonce}"`);
   });
 
-  test('the sign-in page hydrates under the CSP with zero violations', async ({ page }) => {
+  test('public pages hydrate under the CSP with zero violations', async ({ page }) => {
     const violations = await trackCspViolations(page);
     await page.goto('/login');
-    await expect(page.getByText(/Sign-in is not configured/)).toBeVisible();
+    await expect(page.getByRole('heading', { name: /Demo sign-in/ })).toBeVisible();
+    await page.goto('/demo/inbox');
+    await expect(page.getByRole('link', { name: /set up your administrator account/ })).toBeVisible();
+    await page.goto('/forgot-password');
+    await expect(page.getByRole('heading', { name: 'Forgot your password?' })).toBeVisible();
+    expect(await violations()).toEqual([]);
+  });
+
+  test('signed-in pages hydrate under the CSP with zero violations', async ({ page }) => {
+    const violations = await trackCspViolations(page);
+    await signIn(page, OWNER_EMAIL);
+    await page.getByRole('button', { name: 'Demo mode: switch role' }).click();
+    await page.keyboard.press('Escape');
+    await page.getByRole('button', { name: /Notifications/ }).click();
+    await page.keyboard.press('Escape');
+    for (const path of ['/users', '/attendance', '/ai-insights']) {
+      await page.goto(path);
+      await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
+    }
     expect(await violations()).toEqual([]);
   });
 

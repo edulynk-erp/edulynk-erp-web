@@ -12,9 +12,8 @@ export function Textarea({ className, ...props }: ComponentProps<'textarea'>) {
   return <textarea className={cn(fieldClasses, 'min-h-20 px-3 py-2', className)} {...props} />;
 }
 
-export function Select({ className, ...props }: ComponentProps<'select'>) {
-  return <select className={cn(fieldClasses, 'h-9 px-3 py-1', className)} {...props} />;
-}
+/** Form dropdowns use the app's custom menu; it accepts the same props and `<option>` children as `<select>`. */
+export { Select } from '@/components/ui/select-menu';
 
 export function Label({ className, ...props }: ComponentProps<'label'>) {
   return <label className={cn('text-sm font-medium leading-none', className)} {...props} />;
