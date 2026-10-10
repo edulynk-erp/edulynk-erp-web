@@ -1,4 +1,4 @@
-import type { z } from 'zod';
+import type { z } from '@/lib/validation/zod';
 import { ApiError } from '@/lib/api/api-error';
 import { assertApiPath } from '@/lib/api/api-path';
 import { parseErrorEnvelope } from '@/lib/api/error-envelope';

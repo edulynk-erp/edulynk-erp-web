@@ -6,11 +6,20 @@ export interface LoginNotice {
 const REASONS: Record<string, LoginNotice> = {
   session_expired: { tone: 'info', message: 'Your session has expired. Sign in again to continue.' },
   signed_out: { tone: 'info', message: 'You have been signed out.' },
+  setup_complete: {
+    tone: 'info',
+    message: 'Demo account setup is complete. Sign in with the demo credentials below.',
+  },
+  reset_complete: {
+    tone: 'info',
+    message: 'Demo password reset is complete. Sign in with the demo credentials below.',
+  },
 };
 
 const ERRORS: Record<string, LoginNotice> = {
   unavailable: { tone: 'error', message: 'Sign-in is not available in this environment.' },
   rejected: { tone: 'error', message: 'Sign-in was not accepted. Try again.' },
+  credentials: { tone: 'error', message: 'Email or password is incorrect.' },
   request: { tone: 'error', message: 'The sign-in request could not be verified. Try again.' },
   session: { tone: 'error', message: 'Your session could not be created. Contact an administrator.' },
 };

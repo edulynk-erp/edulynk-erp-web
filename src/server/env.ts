@@ -15,8 +15,11 @@ const sessionKeySchema = z
 
 const baseSchema = z.object({
   APP_ENV: z.enum(APP_ENVIRONMENTS),
-  /** Tenant-realm identity integration. Only `unconfigured` exists until the identity contract is approved. */
-  AUTH_ADAPTER: z.enum(['unconfigured']).default('unconfigured'),
+  /**
+   * Tenant-realm identity integration. `unconfigured` until the identity contract is approved; `demo` (simulated
+   * sign-in for the mock-data build) is rejected in staging and production and excluded from production builds.
+   */
+  AUTH_ADAPTER: z.enum(['unconfigured', 'demo']).default('unconfigured'),
   SESSION_ENCRYPTION_KEY: sessionKeySchema,
   TENANT_API_BASE_URL: z
     .url({ protocol: /^https?$/ })
@@ -28,6 +31,13 @@ const baseSchema = z.object({
 
 export const serverEnvSchema = baseSchema.superRefine((env, ctx) => {
   const deployed = DEPLOYED_ENVIRONMENTS.includes(env.APP_ENV);
+  if (deployed && env.AUTH_ADAPTER === 'demo') {
+    ctx.addIssue({
+      code: 'custom',
+      path: ['AUTH_ADAPTER'],
+      message: 'AUTH_ADAPTER=demo is not permitted in staging or production',
+    });
+  }
   if (deployed && env.TENANT_API_BASE_URL && !env.TENANT_API_BASE_URL.startsWith('https://')) {
     ctx.addIssue({
       code: 'custom',

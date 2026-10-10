@@ -12,7 +12,17 @@ import { getSessionKey } from '@/server/auth/session-key';
 import { buildContentSecurityPolicy, createNonce } from '@/server/security/csp';
 import { getServerEnv, isDeployedEnvironment } from '@/server/env';
 
-const PUBLIC_PREFIXES = ['/login', '/auth/', '/healthz', '/bff/'];
+/** `/invite`, password recovery and `/demo/` are public by design: their users cannot sign in yet. */
+const PUBLIC_PREFIXES = [
+  '/login',
+  '/auth/',
+  '/healthz',
+  '/bff/',
+  '/invite/',
+  '/forgot-password',
+  '/reset-password/',
+  '/demo/',
+];
 
 type SessionState = { kind: 'none' } | { kind: 'valid' } | { kind: 'refreshed'; sealed: string } | { kind: 'expired' };
 

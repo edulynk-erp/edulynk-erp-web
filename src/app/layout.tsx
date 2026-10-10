@@ -3,6 +3,7 @@ import { headers } from 'next/headers';
 import { connection } from 'next/server';
 import { brandingCss } from '@/config/branding';
 import { getBranding } from '@/server/branding';
+import '@fontsource-variable/inter';
 import '@/styles/globals.css';
 
 export async function generateMetadata(): Promise<Metadata> {

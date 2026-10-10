@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
+import { DemoSignInForm } from '@/features/auth/demo-sign-in-form';
 import type { LoginNotice } from '@/features/auth/login-messages';
 import type { SignInStep } from '@/server/auth/types';
 import { cn } from '@/lib/utils/cn';
@@ -9,34 +9,33 @@ interface LoginPanelProps {
   brandName: string;
   step: SignInStep;
   notice?: LoginNotice | undefined;
+  next?: string;
 }
 
-export function LoginPanel({ brandName, step, notice }: LoginPanelProps) {
+export function LoginPanel({ brandName, step, notice, next = '/dashboard' }: LoginPanelProps) {
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader>
-        <h1 className="text-lg font-semibold">{brandName}</h1>
-        <CardDescription>Institution sign-in</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {notice ? (
-          <p
-            role={notice.tone === 'error' ? 'alert' : 'status'}
-            className={cn(
-              'rounded-md border px-3 py-2 text-sm',
-              notice.tone === 'error' ? 'border-destructive/40 text-destructive' : 'bg-muted',
-            )}
-          >
-            {notice.message}
-          </p>
-        ) : null}
-        <SignInBody step={step} />
-      </CardContent>
-    </Card>
+    <div className="w-full max-w-sm space-y-6">
+      <div className="space-y-1.5">
+        <h1 className="text-3xl font-bold tracking-tight">Welcome Back</h1>
+        <p className="text-sm text-muted-foreground">Sign in to your {brandName} account</p>
+      </div>
+      {notice ? (
+        <p
+          role={notice.tone === 'error' ? 'alert' : 'status'}
+          className={cn(
+            'rounded-md border px-3 py-2 text-sm',
+            notice.tone === 'error' ? 'border-destructive/40 bg-destructive/5 text-destructive' : 'bg-muted',
+          )}
+        >
+          {notice.message}
+        </p>
+      ) : null}
+      <SignInBody step={step} next={next} />
+    </div>
   );
 }
 
-function SignInBody({ step }: { step: SignInStep }) {
+function SignInBody({ step, next }: { step: SignInStep; next: string }) {
   switch (step.kind) {
     case 'unavailable':
       return (
@@ -53,5 +52,7 @@ function SignInBody({ step }: { step: SignInStep }) {
         </Button>
       );
     }
+    case 'demo-credentials':
+      return <DemoSignInForm password={step.password} accounts={step.accounts} next={next} />;
   }
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest';
-import { z } from 'zod';
+import { z } from '@/lib/validation/zod';
 import { ApiError } from '@/lib/api/api-error';
 import { bffRequest } from '@/lib/api/bff-client';
 import { executeRequest, parseRetryAfter, type Transport } from '@/lib/api/request';

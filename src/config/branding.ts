@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from '@/lib/validation/zod';
 
 /** Institution white-label branding. Only validated, strictly typed tokens ever reach markup or CSS. */
 export interface Branding {
@@ -25,7 +25,7 @@ export const brandingSchema = z.object({
 /** Neutral Edulynk branding used until an institution's branding can be resolved from an approved contract. */
 export const DEFAULT_BRANDING: Branding = {
   displayName: 'Edulynk',
-  primaryColor: '#2f5bd3',
+  primaryColor: '#2563eb',
   primaryForeground: '#ffffff',
 };
 

@@ -1,11 +1,66 @@
-import { LayoutDashboard, type LucideIcon } from 'lucide-react';
+import {
+  BarChart3,
+  Boxes,
+  Building2,
+  BusFront,
+  CalendarDays,
+  ClipboardCheck,
+  ClipboardList,
+  FileSpreadsheet,
+  FileText,
+  GraduationCap,
+  HandCoins,
+  HeartHandshake,
+  BedDouble,
+  LayoutDashboard,
+  Library,
+  LifeBuoy,
+  Megaphone,
+  NotebookPen,
+  Palette,
+  ScrollText,
+  ShieldCheck,
+  ShoppingCart,
+  Sparkles,
+  University,
+  UserPlus,
+  UsersRound,
+  Wallet,
+  type LucideIcon,
+} from 'lucide-react';
+import { createElement } from 'react';
 import type { NavIcon as NavIconId } from '@/config/navigation';
 
 const ICONS: Record<NavIconId, LucideIcon> = {
   dashboard: LayoutDashboard,
+  building: Building2,
+  users: ShieldCheck,
+  admissions: UserPlus,
+  students: GraduationCap,
+  guardians: HeartHandshake,
+  attendance: ClipboardCheck,
+  calendar: CalendarDays,
+  fees: Wallet,
+  exams: ClipboardList,
+  homework: NotebookPen,
+  communication: Megaphone,
+  staff: UsersRound,
+  payroll: HandCoins,
+  library: Library,
+  transport: BusFront,
+  hostel: BedDouble,
+  inventory: Boxes,
+  procurement: ShoppingCart,
+  reports: BarChart3,
+  audit: ScrollText,
+  documents: FileText,
+  import: FileSpreadsheet,
+  branding: Palette,
+  help: LifeBuoy,
+  college: University,
+  insights: Sparkles,
 };
 
 export function NavIcon({ icon, className }: { icon: NavIconId; className?: string }) {
-  const Icon = ICONS[icon];
-  return <Icon className={className} aria-hidden="true" />;
+  return createElement(ICONS[icon], { className, 'aria-hidden': true });
 }
